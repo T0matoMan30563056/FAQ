@@ -1,0 +1,17 @@
+CREATE TABLE User (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    is_admin TINYINT(1),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE Question (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    username VARCHAR(255) NOT NULL,
+    question VARCHAR(255) NOT NULL,
+    answer VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user) REFERENCES User(username)
+    ON DELETE CASCADE
+);
