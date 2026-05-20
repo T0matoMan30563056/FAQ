@@ -14,8 +14,3 @@ def get_db():
         password=os.getenv("PASSWORD"),
         database=os.getenv("DATABASE")
     )
-
-HOST = "10.2.1.255"
-USER = "TheGoat"
-PASSWORD = "SixSeven"
-DATABASE = "Graminsta"
