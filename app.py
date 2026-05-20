@@ -10,7 +10,7 @@ app.secret_key = "6767676767676767"
 def get_db():
     return mysql.connector.connect(
         host=os.getenv("HOST"),
-        user=os.getenv("USER"),
+        user=os.getenv("DB_USER"),
         password=os.getenv("PASSWORD"),
         database=os.getenv("DATABASE"),
         use_pure = True
@@ -37,10 +37,14 @@ def Login():
 
         db = get_db()
         cursor = db.cursor(dictionary=True)
-
+    
         try:
             cursor.execute("SELECT * FROM User WHERE username = %s", (username,))
             user = cursor.fetchone()
+
+            if not user['Active']:
+                flash('Account is disabled.')
+                return render_template('Login.html')
 
             if user and check_password_hash(user['password'], password):
                 session['username'] = username
@@ -185,9 +189,10 @@ def DeleteUser():
         return redirect('/')
     username = session.get('username')
     db = get_db()
-    cursor = db.cursor(dictionary=True)
+    cursor = db.cursor(dictionary=True) 
 
     try:
+        cursor.execute("UPDATE User SET Active = FALSE WHERE username = %s", (username,))
         cursor.execute("UPDATE User SET username = 'Deleted_User' WHERE username = %s", (username,))
         db.commit()
         return redirect('/')
