@@ -11,31 +11,20 @@ body {
     color: #1a1a1a;
 }
 
-.page {
-    max-width: 680px;
-    margin: 0 auto;
-}
-
-.page-title {
+h1 {
     font-size: 28px;
     font-weight: 600;
-    text-align: center;
-    margin-bottom: 0.4rem;
-}
-
-.page-sub {
-    font-size: 14px;
-    color: #777;
-    text-align: center;
     margin-bottom: 2rem;
+    text-align: center;
 }
 
 .QuestionContainer {
+    max-width: 680px;
+    margin: 0 auto 1rem auto;
     background: white;
     border: 1px solid #e0dfd8;
     border-radius: 12px;
     padding: 1.25rem 1.5rem;
-    margin-bottom: 1rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
@@ -65,7 +54,7 @@ body {
     font-style: italic;
 }
 
-.empty {
+body > p {
     text-align: center;
     color: #888;
     font-size: 14px;

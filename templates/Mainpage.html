@@ -1,15 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="/static/css/Common.css">
-            <title>Document</title>
-        </head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/static/css/Common.css">
+        <link rel="stylesheet" href="/static/css/Mainpage.css">
+        <title>FAQ</title>
+    </head>
     <body>
+        <div class="page">
+            <p class="page-title">FAQ</p>
+            <p class="page-sub">Questions from the community</p>
+
+            {% if Questions %}
+
+                {% for q in Questions %}
+                <div class="QuestionContainer">
+                    <h4 class="QuestionHeadline">{{ q['question'] }}</h4>
+                    <p class="QuestionUser">User: {{ q['username'] }}</p>
+
+                    {% if q['answer'] %}
+                        <p class="QuestionAnswer">{{ q['answer'] }}</p>
+                    {% else %}
+                        <p class="QuestionAnswer unanswered">No answer yet.</p>
+                    {% endif %}
+
+                    
+                </div>
+                {% endfor %}
+
+
+            {% else %}
+                <p class="empty">No questions yet. Be the first!</p>
+            {% endif %}
+        </div>
+
         <div id="MenuContainer">
-            <a href="/">Link 1</a>
-            <a href="/">Link 2</a>
+            <a href="/QuestionsPage">Questions</a>
+            <a href="/Profile">Profile</a>
         </div>
     </body>
 </html>

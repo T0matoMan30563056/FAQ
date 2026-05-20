@@ -15,9 +15,22 @@ def get_db():
         database=os.getenv("DATABASE"),
         use_pure = True
     )
+@app.route('/MakeMeAdmin', methods=['GET', 'POST'])
+def MakeMeAdmin():
+    db = get_db()
+    cursor = db.cursor()
+
+    username = session.get('username')
+    cursor.execute("UPDATE User SET is_admin = TRUE WHERE username = %s", (username,))
+    db.commit()
+
+    cursor.close()
+    db.close()
+    return redirect('/Mainpage')
 
 @app.route('/', methods=['POST','GET'])
 def Login():
+    session.clear()
     if request.method == 'POST':
         username = request.form['Username']
         password = request.form['Password']
@@ -81,8 +94,117 @@ def register():
 
 @app.route('/Mainpage', methods=['GET'])
 def mainpage():
+    if 'username' not in session:
+        return redirect('/')
+        
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM Question ORDER BY id DESC")
+    Questions = cursor.fetchall()
+
+    return render_template('Mainpage.html', Questions=Questions)
+
+
+@app.route('/QuestionsPage', methods=['GET'])
+def QuestionsPage():
+    if 'username' not in session:
+        return redirect('/')
+    
+    return render_template('AddQuestion.html')
+
+
+@app.route('/AddQuestion', methods=['POST'])
+def AddQuestion():
+    if 'username' not in session:
+        return redirect('/')
+    username = session.get('username')
+    question = request.form.get("Question")
+    answer = request.form.get("Answer")
+    
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    try:
+        cursor.execute("INSERT INTO Question (username, question, answer) VALUES (%s, %s, %s)", (username, question, answer))
+        db.commit()
+
+    except Exception as e:
+            print(e)
+            flash('Something went wrong during INSERT')
+    finally:
+        cursor.close()
+        db.close()
+
+    return redirect('/Mainpage')
+
+@app.route('/AskQuestion', methods=['POST'])
+def AskQuestion():
+    if 'username' not in session:
+        return redirect('/')
+    username = session.get('username')
+    question = request.form.get("Question")  
+
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    try:
+        cursor.execute("INSERT INTO Question (username, question) VALUES (%s, %s)", (username, question,))
+        db.commit()
+    except Exception as e:
+        print(e)
+        flash('Something went wrong')
+
+    finally:
+        cursor.close()
+        db.close()
+
+    return redirect('/Mainpage')
+
+@app.route('/Profile', methods=['GET', 'POST'])
+def Profile():
+    if 'username' not in session:
+        return redirect('/')
+    username = session.get('username')
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT * FROM Question WHERE username = %s", (username,))
+        comments = cursor.fetchall()
+        return render_template('Profile.html', comments=comments)
+
+    except Exception as e:
+        print(e)
+
+    finally:
+        cursor.close()
+        db.close()
+
+@app.route('/DeleteUser', methods=['GET', 'POST'])
+def DeleteUser():
+    if 'username' not in session:
+        return redirect('/')
+    username = session.get('username')
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+
+    try:
+        cursor.execute("UPDATE User SET username = 'Deleted_User' WHERE username = %s", (username,))
+        db.commit()
+        return redirect('/')
+
+    except Exception as e:
+        print(e)
+
+    finally:
+        cursor.close()
+        db.close()
+
+
+@app.route('/Delete/<int:id>', methods=['POST'])
+def DeleteQuestiont(id):
     db = get_db()
     cursor = db.cursor()
-
-
-    return render_template('Mainpage.html')
+    cursor.execute("DELETE FROM Question WHERE id = %s", (id,))
+    db.commit()
+    db.close()
+    return redirect('/Mainpage')

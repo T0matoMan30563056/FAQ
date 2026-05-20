@@ -12,6 +12,7 @@ CREATE TABLE Question (
     question VARCHAR(255) NOT NULL,
     answer VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (user) REFERENCES User(username)
-    ON DELETE CASCADE
+    FOREIGN KEY (username) REFERENCES User(username)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );

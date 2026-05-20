@@ -12,7 +12,7 @@ body {
 }
 
 .page {
-    max-width: 680px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
@@ -30,46 +30,70 @@ body {
     margin-bottom: 2rem;
 }
 
-.QuestionContainer {
+.forms-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.QuestionBox {
     background: white;
     border: 1px solid #e0dfd8;
     border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1rem;
+    padding: 1.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
-.QuestionHeadline {
+.box-label {
     font-size: 16px;
     font-weight: 600;
-    color: #1a1a1a;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-.QuestionUser {
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 0.8rem;
-}
-
-.QuestionAnswer {
+input,
+textarea {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
     font-size: 14px;
-    color: #1a1a1a;
-    line-height: 1.6;
-    padding-top: 0.75rem;
-    border-top: 1px solid #e0dfd8;
+    font-family: inherit;
+    margin-bottom: 1rem;
+    background: #fafafa;
+    transition: border 0.2s ease, background 0.2s ease;
 }
 
-.unanswered {
-    color: #aaa;
-    font-style: italic;
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #bdb8aa;
+    background: white;
 }
 
-.empty {
-    text-align: center;
-    color: #888;
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.submit-btn {
+    width: 100%;
+    border: none;
+    background: #1a1a1a;
+    color: white;
+    padding: 0.9rem;
+    border-radius: 8px;
     font-size: 14px;
-    margin-top: 4rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.submit-btn:hover {
+    opacity: 0.9;
+}
+
+.spacer {
+    height: 3.2rem;
 }
 
 #MenuContainer {

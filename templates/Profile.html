@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="/static/css/Common.css">
+            <link rel="stylesheet" href="/static/css/profile.css">
+            <title>Document</title>
+        </head>
+    <body>
+        <h1>
+            Your Comments
+        </h1>
+
+        {% if comments %}
+             {% for c in comments %}
+                <div class="QuestionContainer">
+                    <h4 class="QuestionHeadline">{{ c['question'] }}</h4>
+                    <p class="QuestionUser">User: {{ c['username'] }}</p>
+
+                    {% if c['answer'] %}
+                        <p class="QuestionAnswer">{{ c['answer'] }}</p>
+                    {% else %}
+                        <p class="QuestionAnswer unanswered">No answer yet.</p>
+                    {% endif %}
+                    <form action="/Delete/{{ c['id'] }}" method="POST">
+                        <button type="submit" class="submit-btn">DELETE</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>You haven't posted any comments yet.</p>
+        {% endif %}
+
+        <div id="MenuContainer">
+            <a href="/QuestionsPage">Questions</a>
+            <a href="/Mainpage">MainPage</a>
+            <a href="/">LogOut</a>
+            <a href="/DeleteUser">delete user</a>
+        </div>
+    </body>
+</html>
